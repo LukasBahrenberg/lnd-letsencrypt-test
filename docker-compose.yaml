@@ -1,0 +1,45 @@
+services:
+
+  lnd:
+    container_name: lnd
+    image: lightninglabs/lnd:v${LND_VERSION}-beta
+    volumes:
+      - ./shared/.lnd:/root/.lnd
+      - ./lnd.conf:/root/.lnd/lnd.conf
+    command:
+      - --letsencryptdomain=${DOMAIN}
+    ports:
+      - "80:80"
+      - "9735:9735"
+      - "10009:10009"
+      - "8080:8080"
+    depends_on:
+      bitcoind:
+        condition: service_healthy
+
+  bitcoind:
+    container_name: bitcoind
+    image: ruimarinho/bitcoin-core:latest
+    volumes:
+      - ./bitcoin.conf:/home/bitcoin/.bitcoin/bitcoin.conf
+    expose:
+      - "18443"
+      - "28332"
+      - "28333"
+    healthcheck:
+      test: ["CMD-SHELL", "bitcoin-cli -regtest -rpcuser=user -rpcpassword=pass getblockchaininfo"]
+      interval: 5s
+      timeout: 10s
+      retries: 5
+
+  admin:
+    container_name: admin
+    build: 
+      context: ./admin
+    volumes:
+      - ./shared/.lnd:/app/.lnd
+      - ./.env:/app/.env
+    depends_on:
+      bitcoind:
+        condition: service_started
+        restart: true
