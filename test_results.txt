@@ -1,0 +1,67 @@
+Autocert_fix (FAILS)
+
+Docker logs:
+lnd       | 2023-05-31 12:55:00.714 [INF] LTND: Version: 0.16.99-beta commit=v0.16.0-beta-358-gf9d4600ff, build=production, logging=default, debuglevel=debug
+lnd       | 2023-05-31 12:55:00.715 [INF] LTND: Active chain: Bitcoin (network=regtest)
+lnd       | 2023-05-31 12:55:00.715 [INF] RPCS: Generating TLS certificates...
+lnd       | 2023-05-31 12:55:00.718 [INF] RPCS: Done generating TLS certificates
+lnd       | 2023-05-31 12:55:00.718 [INF] LTND: Using Let's Encrypt certificate for domain <Deleted my domain here for illustration>
+lnd       | 2023-05-31 12:55:00.720 [INF] LTND: Autocert challenge listener started at 0.0.0.0:80
+...
+
+REST request response from Python script:
+requests.exceptions.SSLError: HTTPSConnectionPool(host='<Deleted my domain here for illustration>', port=10009): Max retries exceeded with url: /v1/getinfo (Caused by SSLError(SSLCertVerificationError(1, '[SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: self signed certificate (_ssl.c:1129)')))
+
+
+
+16.2 production docker image: lightninglabs/lnd:v0.16.2-beta (FAILS)
+
+Docker logs:
+lnddocker  | 2023-05-31 12:48:26.767 [INF] LTND: Version: 0.16.2-beta commit=v0.16.2-beta, build=production, logging=default, debuglevel=debug
+lnddocker  | 2023-05-31 12:48:26.767 [INF] LTND: Active chain: Bitcoin (network=regtest)
+lnddocker  | 2023-05-31 12:48:26.768 [INF] RPCS: Generating TLS certificates...
+lnddocker  | 2023-05-31 12:48:26.770 [INF] RPCS: Done generating TLS certificates
+lnddocker  | 2023-05-31 12:48:26.771 [INF] LTND: Using Let's Encrypt certificate for domain <Deleted my domain here for illustration>
+lnddocker  | 2023-05-31 12:48:26.773 [INF] LTND: Autocert challenge listener started at 0.0.0.0:80
+...
+
+REST request response from Python script:
+requests.exceptions.SSLError: HTTPSConnectionPool(host='<Deleted my domain here for illustration>', port=10009): Max retries exceeded with url: /v1/getinfo (Caused by SSLError(SSLCertVerificationError(1, '[SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: self signed certificate (_ssl.c:1129)'))
+
+
+
+15.5 production docker image: lightninglabs/lnd:v0.15.5-beta (SUCCESSFUL)
+
+Docker logs:
+lnddocker  | 2023-05-31 13:05:59.542 [INF] LTND: Version: 0.15.5-beta commit=v0.15.5-beta, build=production, logging=default, debuglevel=debug
+lnddocker  | 2023-05-31 13:05:59.542 [INF] LTND: Active chain: Bitcoin (network=regtest)
+lnddocker  | 2023-05-31 13:05:59.542 [INF] RPCS: Generating TLS certificates...
+lnddocker  | 2023-05-31 13:05:59.543 [INF] RPCS: Done generating TLS certificates
+lnddocker  | 2023-05-31 13:05:59.544 [INF] LTND: Using Let's Encrypt certificate for domain <Deleted my domain here for illustration>
+lnddocker  | 2023-05-31 13:05:59.544 [DBG] WLKT: WalletKit RPC server successfully registered with root gRPC server
+lnddocker  | 2023-05-31 13:05:59.544 [DBG] PRPC: Peers RPC server successfully register with root gRPC server
+lnddocker  | 2023-05-31 13:05:59.544 [DBG] RRPC: Router RPC server successfully register with root gRPC server
+lnddocker  | 2023-05-31 13:05:59.545 [DBG] ARPC: Autopilot RPC server successfully register with root gRPC server
+lnddocker  | 2023-05-31 13:05:59.545 [DBG] NTFR: ChainNotifier RPC server successfully register with root gRPC server
+lnddocker  | 2023-05-31 13:05:59.545 [DBG] SGNR: Signer RPC server successfully register with root gRPC server
+lnddocker  | 2023-05-31 13:05:59.545 [DBG] IRPC: Invoices RPC server successfully registered with root gRPC server
+lnddocker  | 2023-05-31 13:05:59.545 [DBG] NRPC: Neutrino RPC server successfully register with root gRPC server
+lnddocker  | 2023-05-31 13:05:59.545 [DBG] VRPC: Versioner RPC server successfully registered with root gRPC server
+lnddocker  | 2023-05-31 13:05:59.545 [INF] RPCS: RPC server listening on 0.0.0.0:8080
+lnddocker  | 2023-05-31 13:05:59.546 [DBG] WLKT: WalletKit REST server successfully registered with root REST server
+lnddocker  | 2023-05-31 13:05:59.546 [DBG] PRPC: Peers REST server successfully registered with root REST server
+lnddocker  | 2023-05-31 13:05:59.546 [DBG] RRPC: Router REST server successfully registered with root REST server
+lnddocker  | 2023-05-31 13:05:59.547 [DBG] ARPC: Autopilot REST server successfully registered with root REST server
+lnddocker  | 2023-05-31 13:05:59.547 [DBG] NTFR: ChainNotifier REST server successfully registered with root REST server
+lnddocker  | 2023-05-31 13:05:59.547 [DBG] SGNR: Signer REST server successfully registered with root REST server
+lnddocker  | 2023-05-31 13:05:59.547 [DBG] IRPC: Invoices REST server successfully registered with root REST server
+lnddocker  | 2023-05-31 13:05:59.547 [DBG] NRPC: Neutrino REST server successfully registered with root REST server
+lnddocker  | 2023-05-31 13:05:59.547 [DBG] VRPC: Versioner REST server successfully registered with root REST server
+lnddocker  | 2023-05-31 13:05:59.548 [INF] RPCS: gRPC proxy started at 0.0.0.0:10009
+lnddocker  | 2023-05-31 13:05:59.549 [INF] LTND: Opening the main database, this might take a few minutes...
+lnddocker  | 2023-05-31 13:05:59.549 [INF] LTND: Opening bbolt database, sync_freelist=false, auto_compact=false
+lnddocker  | 2023-05-31 13:05:59.549 [INF] LTND: Autocert challenge listener started at 0.0.0.0:80
+...
+
+REST request response from Python script:
+{'version': '0.15.5-beta commit=v0.15.5-beta', 'commit_hash': 'c0a09209782b1c62c3393fcea0844e095c25046b', 'identity_pubkey': '02aa902b9960504745eebe1303900fe8187d995064398c8a9de90298c71e9fc0a5', 'alias': '02aa902b9960504745ee', 'color': '#3399ff', 'num_pending_channels': 0, 'num_active_channels': 0, 'num_inactive_channels': 0, 'num_peers': 0, 'block_height': 101, 'block_hash': '42438be10c59cb82ae4d5cb3a8879f94a54bdcbd07ed613aac75609c22ce5f8b', 'best_header_timestamp': '1685538373', 'synced_to_chain': True, 'synced_to_graph': False, 'testnet': False, 'chains': [{'chain': 'bitcoin', 'network': 'regtest'}], 'uris': [], 'features': {'0': {'name': 'data-loss-protect', 'is_required': True, 'is_known': True}, '5': {'name': 'upfront-shutdown-script', 'is_required': False, 'is_known': True}, '7': {'name': 'gossip-queries', 'is_required': False, 'is_known': True}, '9': {'name': 'tlv-onion', 'is_required': False, 'is_known': True}, '12': {'name': 'static-remote-key', 'is_required': True, 'is_known': True}, '14': {'name': 'payment-addr', 'is_required': True, 'is_known': True}, '17': {'name': 'multi-path-payments', 'is_required': False, 'is_known': True}, '23': {'name': 'anchors-zero-fee-htlc-tx', 'is_required': False, 'is_known': True}, '27': {'name': 'shutdown-any-segwit', 'is_required': False, 'is_known': True}, '30': {'name': 'amp', 'is_required': True, 'is_known': True}, '31': {'name': 'amp', 'is_required': False, 'is_known': True}, '45': {'name': 'explicit-commitment-type', 'is_required': False, 'is_known': True}, '2023': {'name': 'script-enforced-lease', 'is_required': False, 'is_known': True}}, 'require_htlc_interceptor': False}

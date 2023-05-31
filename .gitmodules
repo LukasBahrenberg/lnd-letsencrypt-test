@@ -1,0 +1,4 @@
+[submodule "lnd"]
+	path = lnd
+	url = https://github.com/sputn1ck/lnd.git
+	branch = autocert_fix

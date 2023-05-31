@@ -14,7 +14,7 @@ bitcoindaddress = bitcoind_rpc_connection.getnewaddress('address1', 'bech32m')
 bitcoind_rpc_connection.generatetoaddress(101, bitcoindaddress)
 
 # give lnd time to start
-time.sleep(15)
+time.sleep(120)
 
 # make first RPC call to LND to trigger letsencrypt 
 url = 'https://' + domain + ':' + '10009' + '/v1/getinfo'
