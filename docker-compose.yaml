@@ -1,26 +1,10 @@
 services:
 
-  # lnd:
-  #   container_name: lnd
-  #   build: 
-  #     context: ./lnd
-  #   volumes:
-  #     - ./shared/.lnd:/root/.lnd
-  #     - ./lnd.conf:/root/.lnd/lnd.conf
-  #   command:
-  #     - --letsencryptdomain=${DOMAIN}
-  #   ports:
-  #     - "80:80"
-  #     - "9735:9735"
-  #     - "10009:10009"
-  #     - "8080:8080"
-  #   depends_on:
-  #     bitcoind:
-  #       condition: service_healthy
-
-  lnddocker:
-    container_name: lnddocker
-    image: lightninglabs/lnd:v${LND_VERSION}-beta
+  lnd:
+    container_name: lnd
+    build: 
+      context: ./lnd
+      dockerfile: ./Dockerfile
     volumes:
       - ./shared/.lnd:/root/.lnd
       - ./lnd.conf:/root/.lnd/lnd.conf
@@ -34,6 +18,23 @@ services:
     depends_on:
       bitcoind:
         condition: service_healthy
+
+  # lnddocker:
+  #   container_name: lnddocker
+  #   image: lightninglabs/lnd:v${LND_VERSION}-beta
+  #   volumes:
+  #     - ./shared/.lnd:/root/.lnd
+  #     - ./lnd.conf:/root/.lnd/lnd.conf
+  #   command:
+  #     - --letsencryptdomain=${DOMAIN}
+  #   ports:
+  #     - "80:80"
+  #     - "9735:9735"
+  #     - "10009:10009"
+  #     - "8080:8080"
+  #   depends_on:
+  #     bitcoind:
+  #       condition: service_healthy
 
   bitcoind:
     container_name: bitcoind
